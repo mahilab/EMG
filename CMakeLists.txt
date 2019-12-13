@@ -109,3 +109,5 @@ include_directories(${INCLUDE_DIRS})
 # CREATE EXECUTABLES
 #===============================================================================
 
+add_executable(ex_myoband examples/ex_myoband.cpp)
+target_link_libraries(ex_myoband EMG)

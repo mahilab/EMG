@@ -1,0 +1,4 @@
+C:/git/EMG/build/CMakeFiles/edit_cache.dir
+C:/git/EMG/build/CMakeFiles/EMG.dir
+C:/git/EMG/build/CMakeFiles/ex_myoband.dir
+C:/git/EMG/build/CMakeFiles/rebuild_cache.dir

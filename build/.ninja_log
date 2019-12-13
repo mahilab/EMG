@@ -1,0 +1,26 @@
+# ninja log v5
+11	337	597971332	CMakeFiles/EMG.dir/src/EMG/SignalProcessing/Rectifier.cpp.obj	37ca3ad24828c7bc
+8	349	597971332	CMakeFiles/EMG.dir/src/EMG/SignalProcessing/TeagerKaiserEnergyOperator.cpp.obj	397d94eb388f8cb6
+4	525	597971332	CMakeFiles/EMG.dir/src/EMG/EMG/MyoelectricSignal.cpp.obj	db99fc23aa31946a
+1	632	597971332	CMakeFiles/EMG.dir/src/EMG/EMG/MesArray.cpp.obj	70fbfb19395822a6
+632	653	597971332	EMG.lib	b36f934e2303fdb5
+0	592	597971548	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+592	737	597971548	ex_myoband.exe	859df27f2c44f495
+0	617	597972353	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+617	747	597972353	ex_myoband.exe	859df27f2c44f495
+0	672	597972779	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+673	811	597972779	ex_myoband.exe	859df27f2c44f495
+0	671	597972944	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+671	809	597972944	ex_myoband.exe	859df27f2c44f495
+1	660	597974101	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+660	804	597974101	ex_myoband.exe	859df27f2c44f495
+1	737	597974132	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+737	880	597974132	ex_myoband.exe	859df27f2c44f495
+1	728	597974386	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+728	888	597974386	ex_myoband.exe	859df27f2c44f495
+1	695	597974439	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+695	842	597974439	ex_myoband.exe	859df27f2c44f495
+0	694	597974507	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+695	845	597974507	ex_myoband.exe	859df27f2c44f495
+0	677	597974550	CMakeFiles/ex_myoband.dir/examples/ex_myoband.cpp.obj	b8028932a937acaf
+677	823	597974550	ex_myoband.exe	859df27f2c44f495
