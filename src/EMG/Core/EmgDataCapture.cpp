@@ -1,4 +1,4 @@
-#include <EMG/EMG/EmgDataCapture.hpp>
+#include <EMG/Core/EmgDataCapture.hpp>
 #include <MEL/Logging/Log.hpp>
 #include <MEL/Math/Functions.hpp>
 

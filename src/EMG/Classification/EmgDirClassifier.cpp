@@ -1,5 +1,5 @@
 #include <EMG/Classification/EmgDirClassifier.hpp>
-#include <EMG/EMG/EmgFeatures.hpp>
+#include <EMG/Core/EmgFeatures.hpp>
 #include <MEL/Logging/Log.hpp>
 #include <MEL/Math/Functions.hpp>
 

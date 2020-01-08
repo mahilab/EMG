@@ -23,7 +23,7 @@
 #include <MEL/Devices/Windows/Keyboard.hpp>
 #include <MEL/Core/Clock.hpp>
 #include <MEL/Core/Timer.hpp>
-#include <EMG/EMG/MesArray.hpp>
+#include <EMG/Core/MesArray.hpp>
 #include <MEL/Math/Butterworth.hpp>
 
 using namespace mel;

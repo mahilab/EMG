@@ -1,4 +1,4 @@
-#include <EMG/EMG/MyoelectricSignal.hpp>
+#include <EMG/Core/MyoelectricSignal.hpp>
 #include <MEL/Logging/Log.hpp>
 
 using namespace mel;

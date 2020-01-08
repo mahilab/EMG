@@ -1,4 +1,4 @@
-#include <EMG/EMG/EmgFeatures.hpp>
+#include <EMG/Core/EmgFeatures.hpp>
 #include <MEL/Logging/Log.hpp>
 
 using namespace mel;

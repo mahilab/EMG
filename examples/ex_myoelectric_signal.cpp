@@ -7,8 +7,8 @@
 #include <MEL/Utility/System.hpp>
 #include <MEL/Devices/Windows/Keyboard.hpp>
 #include <MEL/Logging/Log.hpp>
-#include <EMG/EMG/MyoelectricSignal.hpp>
-#include <EMG/EMG/EmgDataCapture.hpp>
+#include <EMG/Core/MyoelectricSignal.hpp>
+#include <EMG/Core/EmgDataCapture.hpp>
 
 using namespace mel;
 using namespace emg;
@@ -62,14 +62,7 @@ int main(int argc, char *argv[]) {
     MyoelectricSignal mes(q8.AI.get_channels(emg_channel_numbers)[0]);
 
     // make MelShares
-    MelShare ms_mes_tkeo_env("mes_tkeo_env");
-
-    // create data log for EMG data
-    DataLogger emg_log(WriterType::Buffered, false);
-    std::vector<std::string> emg_log_header;
-    emg_log_header.push_back("MES TKEO ENV " + stringify(emg_channel_numbers[0]));
-    emg_log.set_header(emg_log_header);
-    std::vector<double> emg_log_row(emg_log_header.size());   
+    MelShare ms_mes_tkeo_env("mes_tkeo_env"); 
 
     // initialize testing conditions
     Time Ts = milliseconds(1); // sample period

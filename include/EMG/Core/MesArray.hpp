@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <EMG/EMG/MyoelectricSignal.hpp>
+#include <EMG/Core/MyoelectricSignal.hpp>
 #include <MEL/Daq/Input.hpp>
 
 namespace emg {

@@ -1,6 +1,6 @@
-#include <EMG/EMG/EmgDirectMapping.hpp>
+#include <EMG/Core/EmgDirectMapping.hpp>
 #include <MEL/Logging/Log.hpp>
-#include <EMG/EMG/EmgDataCapture.hpp>
+#include <EMG/Core/EmgDataCapture.hpp>
 #include <MEL/Math/Functions.hpp>
 #include <MEL/Logging/DataLogger.hpp>
 

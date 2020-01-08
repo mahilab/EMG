@@ -1,4 +1,4 @@
-#include <EMG/EMG/MesArray.hpp>
+#include <EMG/Core/MesArray.hpp>
 #include <MEL/Logging/Log.hpp>
 #include <MEL/Math/Functions.hpp>
 
