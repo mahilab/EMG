@@ -21,7 +21,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CONFIGURATION_TYPES Release)
 
 # create project
-project(EMG)
+project(EMG VERSION 0.1.0 LANGUAGES CXX)
 
 # tell user they can't have shared version of EMG if they try
 if (BUILD_SHARED_LIBS)
@@ -102,6 +102,64 @@ set(INCLUDE_DIRS include ${EIGEN_ROOT})
 
 # include directories
 include_directories(${INCLUDE_DIRS})
+
+
+#===============================================================================
+# Install
+#===============================================================================
+
+# install the library
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/EMG)
+install(TARGETS EMG
+	EXPORT EMG-targets
+	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+set_target_properties(EMG PROPERTIES EXPORT_NAME EMG)
+set_target_properties(EMG PROPERTIES FOLDER "EMG")
+
+# install headers
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# set where we want to install our config
+set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/EMG)
+
+# export the targets to a script
+install(EXPORT EMG-targets
+	FILE
+		EMGTargets.cmake
+	# NAMESPACE
+	# 	EMG::
+	DESTINATION
+		${INSTALL_CONFIGDIR}
+)
+
+# include helper functions for creating config files that can be included by other projects to find and use a package
+include(CMakePackageConfigHelpers)
+
+# generate a package configuration file and a package version file
+configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/EMGConfig.cmake.in
+	${CMAKE_CURRENT_BINARY_DIR}/EMGConfig.cmake
+	INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
+)
+write_basic_package_version_file(
+	${CMAKE_CURRENT_BINARY_DIR}/EMGConfigVersion.cmake
+	VERSION ${PROJECT_VERSION}
+	COMPATIBILITY AnyNewerVersion
+)
+
+# install the config and configversion modules
+install(FILES
+	${CMAKE_CURRENT_BINARY_DIR}/EMGConfig.cmake
+	${CMAKE_CURRENT_BINARY_DIR}/EMGConfigVersion.cmake
+	DESTINATION ${INSTALL_CONFIGDIR}
+)
+
+# export from the build tree
+export(EXPORT EMG-targets
+	#    NAMESPACE syntacts::
+	   FILE ${CMAKE_CURRENT_BINARY_DIR}/EMGTargets.cmake)
 
 
 

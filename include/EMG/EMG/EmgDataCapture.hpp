@@ -22,11 +22,11 @@
 namespace emg {
 
     /// Return a window of output_signal (or ref_signal if output_signal is empty) of size window_size that is centered on the maximum value of ref_signal
-    extern std::vector<double> find_max_window(const std::vector<double>& ref_signal, std::size_t window_size = 1, const std::vector<double>& output_signal = std::vector<double>());
+    std::vector<double> find_max_window(const std::vector<double>& ref_signal, std::size_t window_size = 1, const std::vector<double>& output_signal = std::vector<double>());
 
     /// Return a window of output_signal (or ref_signal if output_signal is empty) of size window_size that is centered on the maximum value of the sum of the vectors in ref_signal
-    extern std::vector<std::vector<double>> find_sum_max_window(const std::vector<std::vector<double>> &ref_signal, std::size_t window_size = 1, const std::vector<std::vector<double>> &output_signal = std::vector<std::vector<double>>());
+    std::vector<std::vector<double>> find_sum_max_window(const std::vector<std::vector<double>> &ref_signal, std::size_t window_size = 1, const std::vector<std::vector<double>> &output_signal = std::vector<std::vector<double>>());
 
-	extern std::vector<double> max_sample_per_channel(const std::vector<std::vector<double>> signal);
+	std::vector<double> max_sample_per_channel(const std::vector<std::vector<double>> signal);
 
 } // namespace emg
