@@ -64,16 +64,16 @@ namespace emg {
 		/// Set the channel map from the inputs to the outputs
 		bool set_channel_map(const std::vector<std::size_t> &new_map);
 
-		bool save(const std::string &filename = "emg_direct_mapping", const std::string& directory = ".", bool timestamp = true);
+		bool save(const std::string &filepath = "emg_direct_mapping");
 
-		bool load(const std::string &filename = "emg_direct_mapping", const std::string& directory = ".");
+		bool load(const std::string &filepath);
 
 		std::vector<mel::Table> make_datalog() const;
 
 		bool read_datalog(const std::vector<mel::Table> &tables);
 
 		/// write training data to csv 
-		bool export_training_data(const std::string &filename = "emg_direct_mapping_training_data", const std::string& directory = ".", bool timestamp = true) const;
+		bool export_training_data(const std::string &filepath = "emg_direct_mapping_training_data") const;
 
 	private:
 

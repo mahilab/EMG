@@ -77,13 +77,13 @@ namespace emg {
 		return pred_dim_;
 	}
 	
-	bool RealTimeRegressor::save(const std::string &filename, const std::string& directory, bool timestamp) {
-		return DataLogger::write_to_csv(make_datalog(), filename, directory, timestamp);
+	bool RealTimeRegressor::save(const std::string &filepath) {
+		return Table::write(filepath,make_datalog());
 	}
 
-	bool RealTimeRegressor::load(const std::string &filename, const std::string& directory) {
+	bool RealTimeRegressor::load(const std::string &filepath) {
 		std::vector<Table> tables;
-		if (DataLogger::read_from_csv(tables, filename, directory)) {
+		if (Table::read(filepath,tables)) {
 			return read_datalog(tables);
 		}
 		else {

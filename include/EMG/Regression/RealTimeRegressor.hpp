@@ -15,7 +15,7 @@
 //
 // Author(s): Craig McDonald (craig.g.mcdonald@gmail.com)
 
-pragma once
+#pragma once
 
 #include <MEL/Core/Time.hpp>
 #include <MEL/Logging/Table.hpp>
@@ -55,9 +55,9 @@ namespace emg {
 		/// Return the dimension of the prediction space
 		std::size_t get_pred_dim() const;
 
-		bool save(const std::string &filename = "real_time_regressor", const std::string& directory = ".", bool timestamp = true);
+		bool save(const std::string &filepath = "real_time_regressor");
 
-		bool load(const std::string &filename = "real_time_regressor", const std::string& directory = ".");
+		bool load(const std::string &filepath);
 
 		std::vector<mel::Table> make_datalog() const;
 

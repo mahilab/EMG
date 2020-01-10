@@ -1,8 +1,8 @@
-#include <EMG/Core/EmgDirectMapping.hpp>
+#include <EMG/Regression/EmgDirectMapping.hpp>
 #include <MEL/Logging/Log.hpp>
-#include <EMG/Core/EmgDataCapture.hpp>
+#include <EMG/Utility/EmgDataCapture.hpp>
 #include <MEL/Math/Functions.hpp>
-#include <MEL/Logging/DataLogger.hpp>
+#include <MEL/Logging/Table.hpp>
 
 using namespace mel;
 
@@ -150,13 +150,13 @@ namespace emg {
 		}
 	}
 
-	bool EmgDirectMapping::save(const std::string &filename, const std::string& directory, bool timestamp) {
-		return DataLogger::write_to_csv(make_datalog(), filename, directory, timestamp);
+	bool EmgDirectMapping::save(const std::string &filepath) {
+		return Table::write(filepath,make_datalog());
 	}
 
-	bool EmgDirectMapping::load(const std::string &filename, const std::string& directory) {
+	bool EmgDirectMapping::load(const std::string &filepath) {
 		std::vector<Table> tables;
-		if (DataLogger::read_from_csv(tables, filename, directory)) {
+		if (Table::read(filepath,tables)) {
 			return read_datalog(tables);
 		}
 		else {
@@ -251,13 +251,13 @@ namespace emg {
 		regressor_.read_datalog(regressor_datalog);
 	}
 
-	bool EmgDirectMapping::export_training_data(const std::string &filename, const std::string& directory, bool timestamp) const {
+	bool EmgDirectMapping::export_training_data(const std::string &filepath) const {
 		Table active_data_log("EmgDirectMappingActiveData");
 		for (std::size_t i = 0; i < sample_dim_; ++i) {
 			active_data_log.push_back_col("x_" + stringify(i));
 		}
 		active_data_log.set_values(active_data_);
-		if (!DataLogger::write_to_csv(active_data_log, "active_" + filename, directory, timestamp)) {
+		if (!Table::write("active_" + filepath,active_data_log)) {
 			return false;
 		}
 		Table baseline_data_log("EmgDirectMappingBaselineData");
@@ -265,7 +265,7 @@ namespace emg {
 			baseline_data_log.push_back_col("x_" + stringify(i));
 		}
 		baseline_data_log.set_values(baseline_data_);
-		if (!DataLogger::write_to_csv(baseline_data_log, "baseline_" + filename, directory, timestamp)) {
+		if (!Table::write("baseline_" + filepath,baseline_data_log)) {
 			return false;
 		}
 		return true;
