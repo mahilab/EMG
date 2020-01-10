@@ -15,7 +15,7 @@
 //
 // Author(s): Craig McDonald (craig.g.mcdonald@gmail.com)
 
-pragma once
+#pragma once
 
 #include <vector>
 #include <algorithm>

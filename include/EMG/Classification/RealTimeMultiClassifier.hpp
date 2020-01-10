@@ -15,7 +15,7 @@
 //
 // Author(s): Craig McDonald (craig.g.mcdonald@gmail.com)
 
-pragma
+#pragma once
 
 #include <MEL/Core/Time.hpp>
 #include <MEL/Utility/RingBuffer.hpp>
@@ -93,16 +93,19 @@ namespace emg {
 		/// Clears data stored in the classification buffer and sample buffer.
 		void clear_buffers();
 
-		bool save(const std::string &filename = "real_time_multi_classifier", const std::string& directory = ".", bool timestamp = true);
+		//bool save(const std::string &filename = "real_time_multi_classifier", const std::string& directory = ".", bool timestamp = true);
+        bool save(const std::string &filepath = "./real_time_classifier");
 
-		bool load(const std::string &filename = "", const std::string& directory = ".");
+		//bool load(const std::string &filename = "", const std::string& directory = ".");
+        bool load(const std::string &filepath);
 
 		std::vector<mel::Table> make_datalog() const;
 
 		bool read_datalog(const std::vector<mel::Table> &tables);
 
 		/// uses 1-based indexing of class labels
-		bool export_training_features(const std::string &filename = "real_time_multi_classifier_training_features", const std::string& directory = ".", bool timestamp = true);
+		//bool export_training_features(const std::string &filename = "real_time_multi_classifier_training_features", const std::string& directory = ".", bool timestamp = true);
+        bool export_training_features(const std::string &filepath = "./real_time_multi_classifier_training_features");
 
     protected:
 

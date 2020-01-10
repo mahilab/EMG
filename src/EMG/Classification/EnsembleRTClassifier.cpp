@@ -1,6 +1,6 @@
 #include <EMG/Classification/EnsembleRTClassifier.hpp>
 #include <MEL/Logging/Log.hpp>
-#include <MEL/Logging/DataLogger.hpp>
+#include <MEL/Logging/Table.hpp>
 #include <numeric>
 
 using namespace mel;
@@ -109,13 +109,13 @@ namespace emg {
         construct_classifiers();
     }
 
-	bool EnsembleRTClassifier::save(const std::string &filename, const std::string& directory, bool timestamp) {
-		return DataLogger::write_to_csv(make_datalog(), filename, directory, timestamp);
+	bool EnsembleRTClassifier::save(const std::string &filepath) {
+		return Table::write(filepath,make_datalog());
 	}
 
-	bool EnsembleRTClassifier::load(const std::string &filename, const std::string& directory) {
+	bool EnsembleRTClassifier::load(const std::string &filepath) {
 		std::vector<Table> tables;
-		if (DataLogger::read_from_csv(tables, filename, directory)) {
+		if (Table::read(filepath,tables)) {
 			return read_datalog(tables);
 		}
 		else {
@@ -194,7 +194,8 @@ namespace emg {
     std::size_t EnsembleRTClassifier::ensemble_classification_heuristic(const std::vector<std::size_t>& pred_classes) const {
 
         // majority vote
-        if (std::accumulate(pred_classes.begin(), pred_classes.end(), 0) > pred_classes.size() / 2.0) {
+        std::size_t acc_init = 0;
+        if (std::accumulate(pred_classes.begin(), pred_classes.end(), acc_init) > pred_classes.size() / 2.0) {
             return 1;
         }
         else {

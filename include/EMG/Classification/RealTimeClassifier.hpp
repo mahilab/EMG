@@ -15,7 +15,7 @@
 //
 // Author(s): Craig McDonald (craig.g.mcdonald@gmail.com)
 
-pragma once
+#pragma once
 
 #include <MEL/Core/Time.hpp>
 #include <MEL/Utility/RingBuffer.hpp>
@@ -73,9 +73,11 @@ namespace emg {
         /// Return the size of the feature space
         virtual std::size_t get_feature_dim() const;
 
-		bool save(const std::string &filename = "real_time_classifier", const std::string& directory = ".", bool timestamp = true);
+		//bool save(const std::string &filename = "real_time_classifier", const std::string& directory = ".", bool timestamp = true);
+        bool save(const std::string &filepath = "./real_time_classifier");
 
-		bool load(const std::string &filename = "", const std::string& directory = ".");
+		//bool load(const std::string &filename = "", const std::string& directory = ".");
+        bool load(const std::string &filepath);
 
 		std::vector<mel::Table> make_datalog() const;
 

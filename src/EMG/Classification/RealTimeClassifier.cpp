@@ -3,7 +3,7 @@
 #include <EMG/SignalProcessing/SignalProcessingFunctions.hpp>
 #include <EMG/Classification/LinearDiscriminantAnalysis.hpp>
 #include <MEL/Logging/Log.hpp>
-#include <MEL/Logging/DataLogger.hpp>
+#include <MEL/Logging/Table.hpp>
 
 using namespace mel;
 
@@ -185,13 +185,17 @@ namespace emg {
         return sample_dim_;
     }
 
-	bool RealTimeClassifier::save(const std::string &filename, const std::string& directory, bool timestamp) {
-		return DataLogger::write_to_csv(make_datalog(), filename, directory, timestamp);
+	//bool RealTimeClassifier::save(const std::string &filename, const std::string& directory, bool timestamp) {
+		// return DataLogger::write_to_csv(make_datalog(), filename, directory, timestamp);
+    bool RealTimeClassifier::save(const std::string &filepath) {
+        return Table::write(filepath,make_datalog());
 	}
 
-	bool RealTimeClassifier::load(const std::string &filename, const std::string& directory) {
+	//bool RealTimeClassifier::load(const std::string &filename, const std::string& directory) {
+    bool RealTimeClassifier::load(const std::string &filepath) {
 		std::vector<Table> tables;
-		if (DataLogger::read_from_csv(tables, filename, directory)) {
+		//if (DataLogger::read_from_csv(tables, filename, directory)) {
+        if (Table::read(filepath, tables)) {
 			return read_datalog(tables);
 		}
 		else {

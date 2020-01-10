@@ -3,7 +3,7 @@
 #include <EMG/SignalProcessing/SignalProcessingFunctions.hpp>
 #include <EMG/Classification/LinearDiscriminantAnalysis.hpp>
 #include <MEL/Logging/Log.hpp>
-#include <MEL/Logging/DataLogger.hpp>
+#include <MEL/Logging/Table.hpp>
 
 using namespace mel;
 
@@ -176,7 +176,7 @@ namespace emg {
 
 		std::vector<std::vector<double>> class_training_data = training_data_[class_label];
 		for (std::size_t i = 0; i < class_training_data.size(); ++i) {
-			class_training_data[i].push_back(class_label+1);
+			class_training_data[i].push_back((double)class_label+1);
 		}
 		return class_training_data;
     }
@@ -193,7 +193,7 @@ namespace emg {
 
 		std::vector<std::vector<double>> class_feature_data = feature_data_[class_label];
 		for (std::size_t i = 0; i < class_feature_data.size(); ++i) {
-			class_feature_data[i].push_back(class_label+1);
+			class_feature_data[i].push_back((double)class_label+1);
 		}
         return class_feature_data;
     }
@@ -233,13 +233,26 @@ namespace emg {
 		sample_buffer_.clear();
 	}
 
-	bool RealTimeMultiClassifier::save(const std::string &filename, const std::string& directory, bool timestamp) {
-		return DataLogger::write_to_csv(make_datalog(), filename, directory, timestamp);
+	// bool RealTimeMultiClassifier::save(const std::string &filename, const std::string& directory, bool timestamp) {
+	// 	return DataLogger::write_to_csv(make_datalog(), filename, directory, timestamp);
+	// }
+	bool RealTimeMultiClassifier::save(const std::string &filepath) {
+        return Table::write(filepath,make_datalog());
 	}
 
-	bool RealTimeMultiClassifier::load(const std::string &filename, const std::string& directory) {
+	// bool RealTimeMultiClassifier::load(const std::string &filename, const std::string& directory) {
+	// 	std::vector<Table> tables;
+	// 	if (DataLogger::read_from_csv(tables, filename, directory)) {
+	// 		return read_datalog(tables);
+	// 	}
+	// 	else {
+	// 		return false;
+	// 	}
+	// }
+	bool RealTimeMultiClassifier::load(const std::string &filepath) {
 		std::vector<Table> tables;
-		if (DataLogger::read_from_csv(tables, filename, directory)) {
+		//if (DataLogger::read_from_csv(tables, filename, directory)) {
+        if (Table::read(filepath, tables)) {
 			return read_datalog(tables);
 		}
 		else {
@@ -345,7 +358,8 @@ namespace emg {
 		return true;
 	}
 
-	bool RealTimeMultiClassifier::export_training_features(const std::string &filename, const std::string& directory, bool timestamp) {
+	//bool RealTimeMultiClassifier::export_training_features(const std::string &filename, const std::string& directory, bool timestamp) {
+	bool RealTimeMultiClassifier::export_training_features(const std::string &filepath) {
 		Table training_features("RtmcTrainingFeatures");
 		for (std::size_t j = 0; j < get_feature_dim(); ++j) {
 			training_features.push_back_col("phi_" + stringify(j));
@@ -353,10 +367,11 @@ namespace emg {
 		std::vector<double> true_labels;
 		for (std::size_t i = 0; i < class_count_; ++i) {			
 			training_features.push_back_rows(feature_data_[i]);
-			true_labels.insert(true_labels.end(), feature_data_[i].size(), i + 1);
+			true_labels.insert(true_labels.end(), feature_data_[i].size(), (double)i + 1);
 		}		
 		training_features.push_back_col("true_label", true_labels);
-		return DataLogger::write_to_csv(training_features, filename, directory, timestamp);
+		//return DataLogger::write_to_csv(training_features, filename, directory, timestamp);
+		return Table::write(filepath,training_features);
 	}
 
     std::vector<double> RealTimeMultiClassifier::feature_extraction(const std::vector<std::vector<double>>& signal) const {

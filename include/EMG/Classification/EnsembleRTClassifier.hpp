@@ -15,7 +15,7 @@
 //
 // Author(s): Craig McDonald (craig.g.mcdonald@gmail.com)
 
-pragma once
+#pragma once
 
 #include <EMG/Classification/RealTimeClassifier.hpp>
 #include <MEL/Core/Time.hpp>
@@ -70,9 +70,9 @@ namespace emg {
         /// Change the number of EmgActiveClassifiers that compose the ensemble classifier, reinitializing the entire vector
         void resize(std::size_t classifier_count);
 
-		bool save(const std::string &filename = "ensemble_real_time_classifier", const std::string& directory = ".", bool timestamp = true);
+        bool save(const std::string &filepath = "./ensemblereal_time_classifier");
 
-		bool load(const std::string &filename = "", const std::string& directory = ".");
+        bool load(const std::string &filepath);
 
 		std::vector<mel::Table> make_datalog() const;
 
