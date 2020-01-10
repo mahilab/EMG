@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
 		std::string filename = "ex_classification_b.csv";
        
 		if (load_classifier) {
-			rt_classifier.load(filename, ".");
+			rt_classifier.load(filename);
 		}
 
         if (auto_train) {           
@@ -205,7 +205,7 @@ int main(int argc, char *argv[]) {
 
 		if (save_data) {			
 			LOG(Info) << "Saving binary RealTimeClassifier to " << filename;
-			rt_classifier.save(filename, ".", false);
+			rt_classifier.save(filename);
 		}
     }
 
@@ -219,7 +219,7 @@ int main(int argc, char *argv[]) {
 		std::string filename = "ex_classification_m.csv";
 
 		if (load_classifier) {
-			rt_classifier.load(filename, ".");
+			rt_classifier.load(filename);
 		}
 
         if (auto_train) {
@@ -344,7 +344,7 @@ int main(int argc, char *argv[]) {
 
 		if (save_data) {
 			LOG(Info) << "Saving RealTimeMultiClassifier to " << filename;
-			rt_classifier.save(filename, ".", false);
+			rt_classifier.save(filename);
 		}
     }
 
@@ -363,7 +363,7 @@ int main(int argc, char *argv[]) {
 		std::string filename = "ex_classification_e.csv";
 
 		if (load_classifier) {
-			rt_classifier.load(filename, ".");
+			rt_classifier.load(filename);
 		}
 
         if (auto_train) {
@@ -496,7 +496,7 @@ int main(int argc, char *argv[]) {
 
 		if (save_data) {
 			LOG(Info) << "Saving EnsembleRTClassifier to " << filename;
-			rt_classifier.save(filename, ".", false);
+			rt_classifier.save(filename);
 		}
     }
 

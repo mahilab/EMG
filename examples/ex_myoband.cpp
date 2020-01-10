@@ -35,6 +35,7 @@ int main() {
     std::vector<uint32> emg_channel_numbers = { 0,1,2,3,4,5,6,7 };
     std::size_t emg_channel_count = emg_channel_numbers.size();
 
+    // construct myoband
     MyoBand myo("my_myo");
 
     // construct Myoelectric Signal (MES) Array

@@ -257,7 +257,7 @@ namespace emg {
 			active_data_log.push_back_col("x_" + stringify(i));
 		}
 		active_data_log.set_values(active_data_);
-		if (!Table::write("active_" + filepath,active_data_log)) {
+		if (!Table::write(filepath + "_active",active_data_log)) {
 			return false;
 		}
 		Table baseline_data_log("EmgDirectMappingBaselineData");
@@ -265,7 +265,7 @@ namespace emg {
 			baseline_data_log.push_back_col("x_" + stringify(i));
 		}
 		baseline_data_log.set_values(baseline_data_);
-		if (!Table::write("baseline_" + filepath,baseline_data_log)) {
+		if (!Table::write(filepath + "_baseline",baseline_data_log)) {
 			return false;
 		}
 		return true;

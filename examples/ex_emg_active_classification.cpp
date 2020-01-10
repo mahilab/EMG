@@ -1,4 +1,5 @@
-#include <MEL/Daq/Quanser/Q8Usb.hpp>
+//#include <MEL/Daq/Quanser/Q8Usb.hpp>
+#include <MEL/Devices/Myo/MyoBand.hpp>
 #include <MEL/Communications/MelShare.hpp>
 #include <MEL/Core/Timer.hpp>
 #include <MEL/Core/Clock.hpp>
@@ -6,12 +7,14 @@
 #include <MEL/Utility/System.hpp>
 #include <MEL/Devices/Windows/Keyboard.hpp>
 #include <MEL/Logging/Log.hpp>
-#include <EMG/EMG/MesArray.hpp>
+#include <EMG/Core/MesArray.hpp>
 #include <EMG/Classification/EmgActiveEnsClassifier.hpp>
-#include <EMG/EMG/EmgDataCapture.hpp>
+#include <EMG/Utility/EmgDataCapture.hpp>
 #include <MEL/Utility/Options.hpp>
 
+
 using namespace mel;
+using namespace emg;
 
 ctrl_bool stop(false);
 bool handler(CtrlEvent event) {
@@ -21,58 +24,61 @@ bool handler(CtrlEvent event) {
 
 int main(int argc, char *argv[]) {
 
-    // handle inputs 
-    std::vector<uint32> emg_channel_numbers;
-    if (argc > 1) {
-        uint32 ch;
-        for (int i = 1; i < argc; ++i) {
-            std::stringstream ss(argv[i]);
-            ss >> ch;
-            if (ch >= 0 && ch < 8) {
-                emg_channel_numbers.push_back(ch);
-            }
-        }
-    }
-    else {
-        return 0;
-    }
+    // // handle inputs 
+    // std::vector<uint32> emg_channel_numbers;
+    // if (argc > 1) {
+    //     uint32 ch;
+    //     for (int i = 1; i < argc; ++i) {
+    //         std::stringstream ss(argv[i]);
+    //         ss >> ch;
+    //         if (ch >= 0 && ch < 8) {
+    //             emg_channel_numbers.push_back(ch);
+    //         }
+    //     }
+    // }
+    // else {
+    //     return 0;
+    // }
+    // handle inputs
+    std::vector<uint32> emg_channel_numbers = { 0,1,2,3,4,5,6,7 };
+    std::size_t emg_channel_count = emg_channel_numbers.size();   
 
-    // enable Windows realtime
-    enable_realtime();  
+    // // construct Q8 USB and configure    
+	// Q8Usb q8;
+	// q8.open();
 
-    // register ctrl-c handler
-    register_ctrl_handler(handler);   
+    // q8.DO.set_enable_values(std::vector<Logic>(8, High));
+    // q8.DO.set_disable_values(std::vector<Logic>(8, High));
+    // q8.DO.set_expire_values(std::vector<Logic>(8, High));
+    // if (!q8.identify(7)) {
+    //     LOG(Error) << "Incorrect DAQ";
+    //     return 0;
+    // }
+    // emg_channel_numbers = q8.AI.get_channel_numbers();
+    // std::size_t emg_channel_count = q8.AI.get_channel_count();
 
-    // construct Q8 USB and configure    
-	Q8Usb q8;
-	q8.open();
+    // construct myoband
+    MyoBand myo("my_myo");
 
-    q8.DO.set_enable_values(std::vector<Logic>(8, High));
-    q8.DO.set_disable_values(std::vector<Logic>(8, High));
-    q8.DO.set_expire_values(std::vector<Logic>(8, High));
-    if (!q8.identify(7)) {
-        LOG(Error) << "Incorrect DAQ";
-        return 0;
-    }
-    emg_channel_numbers = q8.AI.get_channel_numbers();
-    std::size_t emg_channel_count = q8.AI.get_channel_count();
+    // construct Myoelectric Signal (MES) Array
+	MesArray mes(myo.get_channels(emg_channel_numbers), 300);
     
     // construct array of Myoelectric Signals    
-    emg::MesArray mes(q8.AI.get_channels(emg_channel_numbers));
+    //emg::MesArray mes(q8.AI.get_channels(emg_channel_numbers));
 
     // make MelShares
     MelShare ms_mes_tkeo_env("mes_tkeo_env");
     MelShare ms_active_state("active_state");
 
     // create data log for EMG data
-    DataLogger emg_log(WriterType::Buffered, false);
-    std::vector<std::string> emg_log_header;
-    emg_log_header.push_back("Time [s]");
-    for (std::size_t i = 0; i < emg_channel_count; ++i) {
-        emg_log_header.push_back("MES TKEO ENV " + stringify(emg_channel_numbers[i]));
-    }
-    emg_log.set_header(emg_log_header);
-    std::vector<double> emg_log_row(emg_log_header.size());   
+    // DataLogger emg_log(WriterType::Buffered, false);
+    // std::vector<std::string> emg_log_header;
+    // emg_log_header.push_back("Time [s]");
+    // for (std::size_t i = 0; i < emg_channel_count; ++i) {
+    //     emg_log_header.push_back("MES TKEO ENV " + stringify(emg_channel_numbers[i]));
+    // }
+    // emg_log.set_header(emg_log_header);
+    // std::vector<double> emg_log_row(emg_log_header.size());   
 
     // initialize testing conditions
     Time Ts = milliseconds(1); // sample period
@@ -89,11 +95,14 @@ int main(int argc, char *argv[]) {
     std::vector<Key> active_keys = { Key::Num1, Key::Num2, Key::Num3, Key::Num4 };
 
     // initialize classifier
-    emg::EmgActiveEnsClassifier active_detector(emg_channel_count, Ts);
+    EmgActiveEnsClassifier active_detector(emg_channel_count, Ts);
     active_detector.resize(num_classes);
     
-    // enable DAQ
-    q8.enable();   
+    // // enable DAQ
+    // q8.enable();
+
+    // enable hardware
+    myo.enable();
 
     // construct clock to regulate interaction
     Clock keypress_refract_clock;
@@ -104,7 +113,7 @@ int main(int argc, char *argv[]) {
     Timer timer(Ts, Timer::Hybrid);
 
     // start while loop
-    q8.watchdog.start();
+    //q8.watchdog.start();
 
     // promt the user for input
     print("Press 'A + 0' to add 'rest' state training data to all classifiers.");
@@ -118,16 +127,19 @@ int main(int argc, char *argv[]) {
     
     while (!stop) {
 
-        // update all DAQ input channels
-        q8.update_input();
+        // // update all DAQ input channels
+        // q8.update_input();
+        
+        // update hardware
+        myo.update();
            
         // emg signal processing
         mes.update_and_buffer();
 
-        // write to emg data log
-        emg_log_row = mes.get_tkeo_envelope();
-        emg_log_row.insert(emg_log_row.begin(), timer.get_elapsed_time().as_seconds());
-        emg_log.buffer(emg_log_row);
+        // // write to emg data log
+        // emg_log_row = mes.get_tkeo_envelope();
+        // emg_log_row.insert(emg_log_row.begin(), timer.get_elapsed_time().as_seconds());
+        // emg_log.buffer(emg_log_row);
         
         // predict state
         if (active_detector.update(mes.get_tkeo_envelope()))
@@ -210,9 +222,9 @@ int main(int argc, char *argv[]) {
             stop = true;
         }
 
-        // kick watchdog
-        if (!q8.watchdog.kick())
-            stop = true;
+        // // kick watchdog
+        // if (!q8.watchdog.kick())
+        //     stop = true;
 
         // wait for remainder of sample period
         timer.wait();
@@ -222,19 +234,16 @@ int main(int argc, char *argv[]) {
     if (active_detector_computed) {
         // save to file
 
-        print("Do you want to save the EMG data log? (Y/N)");
-        Key key = Keyboard::wait_for_any_keys({ Key::Y, Key::N });
-        if (key == Key::Y) {
-            emg_log.save_data("test_active_classifier_emg_data_log.csv", ".", false);
-            emg_log.wait_for_save();
-            emg_log.clear_data();
-            sleep(seconds(0.5));
-        }
+        // print("Do you want to save the EMG data log? (Y/N)");
+        // Key key = Keyboard::wait_for_any_keys({ Key::Y, Key::N });
+        // if (key == Key::Y) {
+        //     emg_log.save_data("test_active_classifier_emg_data_log.csv", ".", false);
+        //     emg_log.wait_for_save();
+        //     emg_log.clear_data();
+        //     sleep(seconds(0.5));
+        // }
     }
 
-    
-
-    disable_realtime();
     return 0;
 }
 
